@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <title>Of → Oh Sistemi</title>
 </head>
+
 <body style="text-align:center; font-family:Arial; margin-top:100px;">
 
 <h1>🎤 Of Deme Oh De Sistemi</h1>
-<button onclick="startListening()" style="padding:15px 30px; font-size:18px;">
+
+<button onclick="startListening()" style="padding:15px 30px; font-size:18px; cursor:pointer;">
 Dinlemeyi Başlat
 </button>
+
+<br><br>
 
 <audio id="music" src="muzik.mp3"></audio>
 
 <script>
 function startListening() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Tarayıcın ses tanımayı desteklemiyor. Lütfen Google Chrome kullan.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
     recognition.lang = "tr-TR";
     recognition.continuous = true;
 
@@ -24,15 +36,19 @@ function startListening() {
         console.log("Duyulan:", transcript);
 
         if (transcript.includes("of")) {
-            document.getElementById("music").play();
+            const audio = document.getElementById("music");
+            audio.currentTime = 0; // Baştan başlat
+            audio.play();
         }
     };
 
-    recognition.start();
+    recognition.onerror = function(event) {
+        console.error("Hata:", event.error);
+    };
 
-<audio id="music" src="muzik.mp3"></audio>
+    recognition.start();
+}
 </script>
 
 </body>
 </html>
-
