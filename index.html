@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Of → Oh Sistemi</title>
+</head>
+<body style="text-align:center; font-family:Arial; margin-top:100px;">
+
+<h1>🎤 Of Deme Oh De Sistemi</h1>
+<button onclick="startListening()" style="padding:15px 30px; font-size:18px;">
+Dinlemeyi Başlat
+</button>
+
+<audio id="music" src="muzik.mp3"></audio>
+
+<script>
+function startListening() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "tr-TR";
+    recognition.continuous = true;
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        console.log("Duyulan:", transcript);
+
+        if (transcript.includes("of")) {
+            document.getElementById("music").play();
+        }
+    };
+
+    recognition.start();
+}
+</script>
+
+</body>
+</html>
+
+<audio id="music" src="muzik.mp3"></audio>
